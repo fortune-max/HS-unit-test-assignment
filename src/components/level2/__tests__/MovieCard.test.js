@@ -19,19 +19,19 @@ describe('MovieCard.vue', () => {
     const wrapper = mount(MovieCard, {
       props: {
         movie: {
-          id: "metropolis1927",
-          title: "Metropolis",
+          id: "thebiglebowski1998",
+          title: "The Big Lebowski",
           score: "83",
           picture: "testImageUrl",
         },
-        favoriteMovie: "metropolis1927",
+        favoriteMovie: "thebiglebowski1998",
       },
     });
 
     const img = wrapper.find(".movie-poster");
     expect(img.attributes('src')).toBe('testImageUrl');
     const movieTitle = wrapper.find(".movie-title");
-    expect(movieTitle.text()).toContain("Metropolis");
+    expect(movieTitle.text()).toContain("The Big Lebowski");
     expect(wrapper.text()).toContain("Rating: 83%");
     expect(wrapper.text()).toContain("🌕🌕🌕🌕");
     const button = wrapper.find('button');
@@ -44,12 +44,12 @@ describe('MovieCard.vue', () => {
     const wrapper = mount(MovieCard, {
       props: {
         movie: {
-          id: "metropolis1927",
-          title: "Metropolis",
+          id: "thebiglebowski1998",
+          title: "The Big Lebowski",
           score: "83",
           picture: "testImageUrl",
         },
-        favoriteMovie: "metropolis1927",
+        favoriteMovie: "thebiglebowski1998",
       },
     });
 
@@ -63,8 +63,8 @@ describe('MovieCard.vue', () => {
     const wrapper = mount(MovieCard, {
       props: {
         movie: {
-          id: "metropolis1927",
-          title: "Metropolis",
+          id: "thebiglebowski1998",
+          title: "The Big Lebowski",
           score: "83",
           picture: "testImageUrl",
         },
