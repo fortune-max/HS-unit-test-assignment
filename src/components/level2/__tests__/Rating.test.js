@@ -1,6 +1,7 @@
-import { expect, it, describe } from 'vitest';
+import { expect, it, describe, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Ratings from '../Rating.vue';
+const moonScore = import('../utils/moonScore');
 
 describe('Ratings.vue', () => {
   it('renders correctly', () => {
@@ -9,4 +10,16 @@ describe('Ratings.vue', () => {
   });
 
   // TODO: how to test for prop score here?
+  it('Ensure Rating I/O is same as previously tested getMoonScore I/O', async() => {
+    const getMoonScore = vi.spyOn(await moonScore, 'getMoonScore').mockReturnValue("testVal");
+
+    const wrapper = mount(Ratings, {
+      props: {
+        score: 42,
+      }
+    });
+
+    expect(getMoonScore).toBeCalledWith(42);
+    expect(wrapper.text()).toBe("testVal");
+  });
 });
