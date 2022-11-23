@@ -57,5 +57,6 @@ describe('MovieList.vue', () => {
     await wrapper.vm.$nextTick();
     const select = wrapper.find('option:checked');
     expect(select.exists()).toBeTruthy();
+    expect(select.element.value).toBe(mockedMovieList[0].id)
   });
 });
