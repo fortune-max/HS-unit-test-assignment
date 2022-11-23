@@ -5,7 +5,9 @@ import dataService from './utils/dataService';
 
 const movies = dataService.getMovies();
 
-function setFavoriteMovie() {}
+function setFavoriteMovie(newFavoriteMovieId) {
+  favoriteMovie.value = newFavoriteMovieId;
+}
 const favoriteMovie = ref('');
 </script>
 <template>
