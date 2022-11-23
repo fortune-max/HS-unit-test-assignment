@@ -5,6 +5,18 @@ import MovieCard from '../MovieCard.vue';
 import dataService from '../utils/dataService';
 
 describe('MovieList.vue', () => {
+  const mockedMovieList = [{
+    id: "tpb1987",
+    title: "The Princess Bride",
+    score: "97",
+    picture: "testImageUrl"
+  }, {
+    id: "bttf1985",
+    title: "Back To The Future",
+    score: "97",
+    picture: "testImageUrl"
+  }];
+
   it('renders correctly', () => {
     const wrapper = shallowMount(MovieList);
 
@@ -26,17 +38,6 @@ describe('MovieList.vue', () => {
 
   // TODO: write this test!
   it('should have no favorite movie by default', async () => {
-    const mockedMovieList = [{
-      id: "eeaao2022",
-      title: "Everything Everywhere All at Once",
-      score: "99",
-      picture: "https://upload.wikimedia.org/wikipedia/en/1/1e/Everything_Everywhere_All_at_Once.jpg?20220614192901"
-    }, {
-      id: "dune2021",
-      title: "Dune",
-      score: "85",
-      picture: "https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg"
-    }];
     vi.spyOn(dataService, 'getMovies').mockReturnValue(mockedMovieList);
     const wrapper = shallowMount(MovieList);
     const favoriteSelectorMovie = wrapper.find('.controls option:checked');
@@ -47,17 +48,6 @@ describe('MovieList.vue', () => {
   // Make this test pass by adding the missing functionality in the MovieList.vue component
   // TODO: After you made the test pass, rework the test so it follows best practices
   it('should update favorite movie on favorite-selected event received', async () => {
-    const mockedMovieList = [{
-      id: "eeaao2022",
-      title: "Everything Everywhere All at Once",
-      score: "99",
-      picture: "https://upload.wikimedia.org/wikipedia/en/1/1e/Everything_Everywhere_All_at_Once.jpg?20220614192901"
-    }, {
-      id: "dune2021",
-      title: "Dune",
-      score: "85",
-      picture: "https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg"
-    }];
     vi.spyOn(dataService, 'getMovies').mockReturnValue(mockedMovieList);
     const wrapper = mount(MovieList);
     const movieCard = wrapper.findAllComponents(MovieCard)[0];
