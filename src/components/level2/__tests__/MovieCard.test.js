@@ -1,8 +1,16 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 import MovieCard from '../MovieCard.vue';
+import MoonRating from '../Rating.vue';
 
 describe('MovieCard.vue', () => {
+  const mockMovie = {
+    id: "thebiglebowski1998",
+    title: "The Big Lebowski",
+    score: "83",
+    picture: "testImageUrl",
+  };
+
   it('renders correctly', () => {
     const wrapper = mount(MovieCard, {
       props: {
@@ -18,22 +26,25 @@ describe('MovieCard.vue', () => {
   it('movie passed through props is rendered correctly', () => {
     const wrapper = mount(MovieCard, {
       props: {
-        movie: {
-          id: "thebiglebowski1998",
-          title: "The Big Lebowski",
-          score: "83",
-          picture: "testImageUrl",
-        },
-        favoriteMovie: "thebiglebowski1998",
+        movie: mockMovie,
+        favoriteMovie: mockMovie.id,
       },
+      global: {
+        stubs: {
+          MoonRating: {
+            template: '<div>🌕🌕🌕🌕</div>'
+          },
+        }
+      }
     });
 
     const img = wrapper.find(".movie-poster");
     expect(img.attributes('src')).toBe('testImageUrl');
     const movieTitle = wrapper.find(".movie-title");
-    expect(movieTitle.text()).toContain("The Big Lebowski");
-    expect(wrapper.text()).toContain("Rating: 83%");
-    expect(wrapper.text()).toContain("🌕🌕🌕🌕");
+    expect(movieTitle.text()).toContain(mockMovie.title);
+    expect(wrapper.text()).toContain(`Rating: ${mockMovie.score}%`);
+    const ratingComponent = wrapper.findComponent(MoonRating);
+    expect(ratingComponent.text()).toBe("🌕🌕🌕🌕");
     const button = wrapper.find('button');
     expect("disabled" in button.attributes()).toBeTruthy();
   });
@@ -43,13 +54,8 @@ describe('MovieCard.vue', () => {
   it('favorite movie has 😍 emoji next to Title', () => {
     const wrapper = mount(MovieCard, {
       props: {
-        movie: {
-          id: "thebiglebowski1998",
-          title: "The Big Lebowski",
-          score: "83",
-          picture: "testImageUrl",
-        },
-        favoriteMovie: "thebiglebowski1998",
+        movie: mockMovie,
+        favoriteMovie: mockMovie.id,
       },
     });
 
@@ -62,12 +68,7 @@ describe('MovieCard.vue', () => {
   it('button emits favorite-selected event on click', async () => {
     const wrapper = mount(MovieCard, {
       props: {
-        movie: {
-          id: "thebiglebowski1998",
-          title: "The Big Lebowski",
-          score: "83",
-          picture: "testImageUrl",
-        },
+        movie: mockMovie,
       },
     });
 
