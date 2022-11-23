@@ -52,6 +52,8 @@ describe('MovieList.vue', () => {
     const wrapper = mount(MovieList);
     const movieCard = wrapper.findAllComponents(MovieCard)[0];
     await movieCard.vm.$emit('favorite-selected', mockedMovieList[0].id);
+    expect(movieCard.emitted('favorite-selected')).toBeTruthy();
+    expect(movieCard.emitted('favorite-selected')[0][0]).toBe(mockedMovieList[0].id);
     await wrapper.vm.$nextTick();
     const select = wrapper.find('option:checked');
     expect(select.exists()).toBeTruthy();
