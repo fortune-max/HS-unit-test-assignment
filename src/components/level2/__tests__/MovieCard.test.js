@@ -75,5 +75,6 @@ describe('MovieCard.vue', () => {
     const button = wrapper.find('button');
     await button.trigger('click');
     expect(wrapper.emitted('favorite-selected')).toBeTruthy();
+    expect(wrapper.emitted('favorite-selected')[0][0]).toBe(mockMovie.id);
   });
 });
