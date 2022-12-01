@@ -16,6 +16,21 @@ describe('FetchSuspense.vue', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
+  // Moved this test from bottom as after fetch is stubbed (in below tests), it can't be restored to original global function implementation, even with resetAllMocks
+  // mockGet works with fetch's default implementation and only mocks it's result, allowing us to focus only on what this test is directly interested in
+  it('shows image once fetch is completed', async () => {
+    mockGet('https://yesno.wtf/api').willResolve({
+      ok: true,
+      image: "http://example.com/imageUrl",
+    });
+    const wrapper = mount(ParentTestStub);
+    expect(wrapper.findAll('img').length).toBe(0);
+    await flushPromises();
+    expect(wrapper.findAll('img').length).toBe(1);
+    expect(wrapper.find('img').element.alt).toBe("image from api");
+    expect(wrapper.find('img').element.src).toBe("http://example.com/imageUrl");
+  });
+
   it('calls fetch API', () => {
     const fetchSpy = vi.fn();
     vi.stubGlobal('fetch', fetchSpy);
@@ -52,19 +67,5 @@ describe('FetchSuspense.vue', () => {
     expect(fetchSpy).toBeCalledWith('https://yesno.wtf/api');
     await flushPromises();
     expect(wrapper.emitted('error-with-child')).toBeTruthy();
-  });
-
-  it('shows image once fetch is completed', async () => {
-    mockGet('https://yesno.wtf/api').willResolve({
-      ok: true,
-      image: "imageUrl",
-    });
-
-    const wrapper = mount(ParentTestStub);
-    expect(wrapper.findAll('img').length).toBe(0);
-    await flushPromises();
-    expect(wrapper.findAll('img').length).toBe(1);
-    expect(wrapper.find('img').element.alt).toBe("image from api");
-    expect(wrapper.find('img').element.src).toContain('imageUrl');
   });
 });
