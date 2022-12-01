@@ -2,6 +2,8 @@ import { flushPromises, mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import FetchSuspense from './FetchSuspense.vue';
 import ParentTestStub from './ParentTestStub.vue';
+import { mockGet } from 'vi-fetch';
+import 'vi-fetch/setup';
 // TODO: complete the test suite for this component!
 
 describe('FetchSuspense.vue', () => {
@@ -52,5 +54,17 @@ describe('FetchSuspense.vue', () => {
     expect(wrapper.emitted('error-with-child')).toBeTruthy();
   });
 
-  it('shows image once fetch is completed', () => {});
+  it.only('shows image once fetch is completed', async () => {
+    mockGet('https://yesno.wtf/api').willResolve({
+      ok: true,
+      image: "imageUrl",
+    });
+
+    const wrapper = mount(ParentTestStub);
+    expect(wrapper.findAll('img').length).toBe(0);
+    await flushPromises();
+    expect(wrapper.findAll('img').length).toBe(1);
+    expect(wrapper.find('img').element.alt).toBe("image from api");
+    expect(wrapper.find('img').element.src).toContain('imageUrl');
+  });
 });
