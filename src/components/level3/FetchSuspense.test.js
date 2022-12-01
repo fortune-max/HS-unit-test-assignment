@@ -54,7 +54,7 @@ describe('FetchSuspense.vue', () => {
     expect(wrapper.emitted('error-with-child')).toBeTruthy();
   });
 
-  it.only('shows image once fetch is completed', async () => {
+  it('shows image once fetch is completed', async () => {
     mockGet('https://yesno.wtf/api').willResolve({
       ok: true,
       image: "imageUrl",
