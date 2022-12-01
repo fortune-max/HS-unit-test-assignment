@@ -11,6 +11,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "vi-fetch": "^0.8.0",
     "vue": "^3.2.41"
   },
   "devDependencies": {
